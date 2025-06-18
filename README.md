@@ -37,22 +37,22 @@ echo "ALLEAI_API_KEY=your_api_key_here" > .env
 
 **TypeScript:**
 ```typescript
-import { AlleAI } from 'alle-ai-sdk';
+import { AlleAIClient } from 'alle-ai-sdk';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const alleai = new AlleAI({
+const alleai = new AlleAIClient({
   apiKey: process.env.ALLEAI_API_KEY
 });
 ```
 
 **JavaScript (CommonJS):**
 ```javascript
-const AlleAI = require('alle-ai-sdk');
+const AlleAIClient = require('alle-ai-sdk');
 require('dotenv').config();
 
-const alleai = new AlleAI({
+const alleai = new AlleAIClient({
   apiKey: process.env.ALLEAI_API_KEY
 });
 ```
