@@ -1,6 +1,6 @@
 {
   "name": "alle-ai-sdk",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "SDK for alle-ai platform",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
