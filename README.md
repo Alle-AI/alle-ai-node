@@ -529,7 +529,7 @@ handleError();
 
 For technical support and inquiries:
 - Open an issue in our GitHub repository
-- Contact our support team at support@alle.ai
+- Contact our support team at contact@alle-ai.com
 
 ## License
 
