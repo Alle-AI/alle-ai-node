@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*", "src/core/errors.ts"],
+  "exclude": ["node_modules", "dist", "tests"]
+}
