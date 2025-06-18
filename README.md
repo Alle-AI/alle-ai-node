@@ -6,14 +6,18 @@
 
 A TypeScript/JavaScript SDK for interacting with the AlleAI platform, providing seamless access to state-of-the-art AI models for image generation, audio processing, and video creation. Built with full TypeScript support while maintaining complete JavaScript (CommonJS) compatibility.
 
-## Features
+### Features
 
-- **Full TypeScript Support** - Complete type definitions with IntelliSense/autocomplete support
-- **Chat Completions** - Multiple model support (GPT-4O, O4-Mini, Claude-3-Sonnet) with advanced configuration
-- **Image Processing** - High-quality generation and editing with multiple AI models (DALL-E-3, Grok-2)
-- **Audio Processing** - Professional Text-to-Speech and Speech-to-Text capabilities
-- **Video Generation** - AI-powered video creation with custom parameters
-- **JavaScript Compatibility** - Full CommonJS support alongside TypeScript
+- **Full TypeScript Support** – Includes comprehensive type definitions with IntelliSense and autocomplete for a smooth developer experience.
+- **Chat Completions API** – Generate conversational responses using multiple AI models such as GPT-4o, O4-Mini, and Claude 3 Sonnet.
+- **Image Generation & Editing API** – Create and manipulate high-quality images powered by models like DALL·E 3, Grok-2, and others.
+- **Audio API** – Multi-model support for:
+  - **Text-to-Speech (TTS)** – Convert text to natural-sounding audio.
+  - **Speech-to-Text (STT)** – Transcribe spoken words into text.
+  - **Audio Generation** – Produce unique audio content using generative AI.
+- **Video Generation API** – Generate AI-powered videos with custom parameters, using different video models.
+- **JavaScript & TypeScript Compatible** – Fully works in both CommonJS and ESM environments.
+
 
 ## Installation
 
@@ -61,10 +65,10 @@ const alleai = new AlleAI({
 
 **TypeScript:**
 ```typescript
-import { AlleAI } from 'alle-ai-sdk';
+import { AlleAIClient } from 'alle-ai-sdk';
 
 async function runChat() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -98,10 +102,10 @@ runChat();
 
 **JavaScript (CommonJS):**
 ```javascript
-const { AlleAI } = require('alle-ai-sdk');
+const { AlleAIClient } = require('alle-ai-sdk');
 
 async function runChat() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -137,10 +141,10 @@ runChat();
 
 **TypeScript:**
 ```typescript
-import { AlleAI } from 'alle-ai-sdk';
+import { AlleAIClient } from 'alle-ai-sdk';
 
 async function runCombination() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -172,10 +176,10 @@ runCombination();
 
 **JavaScript (CommonJS):**
 ```javascript
-const { AlleAI } = require('alle-ai-sdk');
+const { AlleAIClient } = require('alle-ai-sdk');
 
 async function runCombination() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -209,10 +213,10 @@ runCombination();
 
 **TypeScript:**
 ```typescript
-import { AlleAI } from 'alle-ai-sdk';
+import { AlleAIClient } from 'alle-ai-sdk';
 
 async function runComparison() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -250,10 +254,10 @@ runComparison();
 
 **JavaScript (CommonJS):**
 ```javascript
-const { AlleAI } = require('alle-ai-sdk');
+const { AlleAIClient } = require('alle-ai-sdk');
 
 async function runComparison() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -293,10 +297,10 @@ runComparison();
 
 **TypeScript:**
 ```typescript
-import { AlleAI } from 'alle-ai-sdk';
+import { AlleAIClient } from 'alle-ai-sdk';
 
 async function runWebSearch() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -329,10 +333,10 @@ runWebSearch();
 
 **JavaScript (CommonJS):**
 ```javascript
-const { AlleAI } = require('alle-ai-sdk');
+const { AlleAIClient } = require('alle-ai-sdk');
 
 async function runWebSearch() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
   
@@ -367,10 +371,10 @@ runWebSearch();
 
 **TypeScript:**
 ```typescript
-import { AlleAI } from 'alle-ai-sdk';
+import { AlleAIClient } from 'alle-ai-sdk';
 
 async function generateImage() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
 
@@ -391,10 +395,10 @@ generateImage();
 
 **JavaScript (CommonJS):**
 ```javascript
-const AlleAI = require('alle-ai-sdk');
+const {AlleAIClient} = require('alle-ai-sdk');
 
 async function generateImage() {
-  const alleai = new AlleAI({
+  const alleai = new AlleAIClient({
     apiKey: process.env.ALLEAI_API_KEY
   });
 
@@ -518,7 +522,7 @@ handleError();
 ## Requirements
 
 - Node.js 14 or higher
-- Valid AlleAI API key
+- Valid Alle-AI API key
 - `dotenv` package for environment variable management
 
 ## Support
