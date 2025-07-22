@@ -2,6 +2,7 @@ import { AlleChat } from "../modules/chat";
 import { AlleImage } from "../modules/Image";
 import { AlleAudio } from "../modules/Audio";
 import { AlleVideo } from "../modules/Video";
+import { AlleModels } from "../modules/models";
 import {
   AlleAIError,
   ValidationError,
@@ -47,6 +48,7 @@ class AlleAIClient {
   public image: AlleImage;
   public audio: AlleAudio;
   public video: AlleVideo;
+  public models: AlleModels;
 
   /**
    * Creates an instance of AlleAI.
@@ -279,6 +281,7 @@ class AlleAIClient {
     this.image = new AlleImage(makeRequest, makeFormDataRequest);
     this.audio = new AlleAudio(makeRequest, makeFormDataRequest);
     this.video = new AlleVideo(makeRequest, makeFormDataRequest);
+    this.models = new AlleModels(makeRequest);
   }
 }
 

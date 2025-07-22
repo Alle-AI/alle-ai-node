@@ -130,3 +130,20 @@ export interface VideoEdit {
   prompt: string;
   videoUrl: string;
 }
+
+// models types 
+// Define allowed model domains/types
+export type ModelType = 'chat' | 'image' | 'audio' | 'video' | 'all';
+
+// Optional filters for search
+export interface ModelQueryParams {
+  model_name: string;    // Required - name of the model to search for
+  provider?: string;     // Optional - filter by provider
+  capability?: string;   // Optional - filter by capability
+}
+
+// Main request payload structure
+export interface ModelRequest {
+  type: ModelType;
+  params?: ModelQueryParams;
+}
