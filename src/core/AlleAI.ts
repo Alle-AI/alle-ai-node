@@ -13,13 +13,15 @@ import {
   ServiceUnavailableError,
   ConnectionError,
 } from "./errors";
+import { API_URL } from "../configs";
 
 // Use require for CommonJS modules
-const FormData = require('form-data');
-const fetch = require('node-fetch');
-type FormData = import('form-data');
-type FetchResponse = import('node-fetch').Response;
+const FormData = require("form-data");
+const fetch = require("node-fetch");
+type FormData = import("form-data");
+type FetchResponse = import("node-fetch").Response;
 
+const apiUrl = API_URL;
 /**
  * Configuration interface for AlleAI SDK
  * @interface AlleAIConfig
@@ -61,9 +63,8 @@ class AlleAIClient {
     }
 
     this.apiKey = config.apiKey;
-    this.baseUrl = config.baseUrl || "https://api.alle-ai.com/api/v1";
+    this.baseUrl = config.baseUrl || apiUrl;
 
-  
     const handleErrorResponse = async (
       response: FetchResponse
     ): Promise<never> => {

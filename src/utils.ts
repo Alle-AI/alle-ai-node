@@ -1,10 +1,8 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { Readable } from "stream";
-import { finished } from "stream/promises";
 import { createWriteStream } from "fs";
-import https from 'https';
-import http from 'http';
+import https from "https";
+import http from "http";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
 
@@ -13,7 +11,7 @@ const SUPPORTED_EXTENSIONS = {
   image: new Set<string>([".jpg", ".jpeg", ".png", ".gif", ".bmp"]),
   audio: new Set<string>([".mp3", ".wav", ".ogg", ".m4a", ".aac"]),
   video: new Set<string>([".mp4", ".mov", ".avi", ".webm"]),
-  pdf: new Set<string>([".pdf"])
+  pdf: new Set<string>([".pdf"]),
 } as const;
 
 // MIME types mapping
@@ -32,7 +30,7 @@ const MIME_TYPES = {
   ".mov": "video/quicktime",
   ".avi": "video/x-msvideo",
   ".webm": "video/webm",
-  ".pdf": "application/pdf"
+  ".pdf": "application/pdf",
 } as const;
 
 type FileType = keyof typeof SUPPORTED_EXTENSIONS;
@@ -44,28 +42,32 @@ type FileType = keyof typeof SUPPORTED_EXTENSIONS;
  */
 async function downloadFile(url: string, destPath: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const protocol = url.startsWith('https') ? https : http;
+    const protocol = url.startsWith("https") ? https : http;
     const fileStream = createWriteStream(destPath);
-    
-    protocol.get(url, (response) => {
-      if (response.statusCode !== 200) {
+
+    protocol
+      .get(url, (response) => {
+        if (response.statusCode !== 200) {
+          fileStream.close();
+          fs.unlink(destPath).catch(() => {}); // Clean up file
+          reject(
+            new Error(`Failed to download file: ${response.statusMessage}`)
+          );
+          return;
+        }
+
+        response.pipe(fileStream);
+
+        fileStream.on("finish", () => {
+          fileStream.close();
+          resolve();
+        });
+      })
+      .on("error", (err) => {
         fileStream.close();
         fs.unlink(destPath).catch(() => {}); // Clean up file
-        reject(new Error(`Failed to download file: ${response.statusMessage}`));
-        return;
-      }
-
-      response.pipe(fileStream);
-      
-      fileStream.on('finish', () => {
-        fileStream.close();
-        resolve();
+        reject(err);
       });
-    }).on('error', (err) => {
-      fileStream.close();
-      fs.unlink(destPath).catch(() => {}); // Clean up file
-      reject(err);
-    });
   });
 }
 
@@ -75,25 +77,30 @@ async function downloadFile(url: string, destPath: string): Promise<void> {
  * @param type Type of file to process
  * @returns Promise with buffer and metadata
  */
-export const processFile = async (filePath: string, type: FileType): Promise<{
-  buffer: Buffer,
-  filename: string,
-  filepath: string
+export const processFile = async (
+  filePath: string,
+  type: FileType
+): Promise<{
+  buffer: Buffer;
+  filename: string;
+  filepath: string;
 }> => {
   try {
     // Check if it's a URL
     const url = new URL(filePath);
     const fileExt = path.extname(url.pathname).toLowerCase();
-    
+
     // Validate file extension
     if (!SUPPORTED_EXTENSIONS[type].has(fileExt)) {
       throw new Error(
-        `URL file type '${fileExt}' not supported for ${type}. Supported types: ${Array.from(SUPPORTED_EXTENSIONS[type]).join(", ")}`
+        `URL file type '${fileExt}' not supported for ${type}. Supported types: ${Array.from(
+          SUPPORTED_EXTENSIONS[type]
+        ).join(", ")}`
       );
     }
 
     // Create temp directory if it doesn't exist
-    const tempDir = path.join(process.cwd(), 'temp');
+    const tempDir = path.join(process.cwd(), "temp");
     await fs.mkdir(tempDir, { recursive: true });
 
     // Generate temp file path
@@ -107,7 +114,11 @@ export const processFile = async (filePath: string, type: FileType): Promise<{
     const stats = await fs.stat(tempPath);
     if (stats.size > MAX_FILE_SIZE) {
       await fs.unlink(tempPath); // Clean up
-      throw new Error(`File size (${(stats.size / 1024 / 1024).toFixed(2)}MB) exceeds max limit (20MB)`);
+      throw new Error(
+        `File size (${(stats.size / 1024 / 1024).toFixed(
+          2
+        )}MB) exceeds max limit (20MB)`
+      );
     }
 
     // Read the file
@@ -117,7 +128,6 @@ export const processFile = async (filePath: string, type: FileType): Promise<{
     await fs.unlink(tempPath);
 
     return { buffer, filename, filepath: tempPath };
-
   } catch (e) {
     // Not a URL, process as local file
     if (!(e instanceof TypeError)) {
@@ -135,14 +145,18 @@ export const processFile = async (filePath: string, type: FileType): Promise<{
 
       if (stats.size > MAX_FILE_SIZE) {
         throw new Error(
-          `File size (${(stats.size / 1024 / 1024).toFixed(2)}MB) exceeds max limit (20MB)`
+          `File size (${(stats.size / 1024 / 1024).toFixed(
+            2
+          )}MB) exceeds max limit (20MB)`
         );
       }
 
       const fileExt = path.extname(absolutePath).toLowerCase();
       if (!SUPPORTED_EXTENSIONS[type].has(fileExt)) {
         throw new Error(
-          `File type '${fileExt}' not supported for ${type}. Supported types: ${Array.from(SUPPORTED_EXTENSIONS[type]).join(", ")}`
+          `File type '${fileExt}' not supported for ${type}. Supported types: ${Array.from(
+            SUPPORTED_EXTENSIONS[type]
+          ).join(", ")}`
         );
       }
 
@@ -150,9 +164,8 @@ export const processFile = async (filePath: string, type: FileType): Promise<{
       const filename = path.basename(absolutePath);
 
       return { buffer, filename, filepath: absolutePath };
-
     } catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+      if ((error as NodeJS.ErrnoException).code === "ENOENT") {
         throw new Error(`File not found: ${filePath}`);
       }
       throw error;
@@ -168,3 +181,18 @@ export const attachFile = async (filePath: string): Promise<string> => {
   const { buffer } = await processFile(filePath, "image");
   return buffer.toString("base64");
 };
+
+// //  get api url for local and production based on dotenv variable
+
+// export function getApiUrl() {
+//   const env = process.env.NODE_ENV;
+
+//   if (env === "local") {
+//     return "http://127.0.0.1:8000/api/v1";
+//   }
+//   else if (env === "production"){
+//     return "https://api.alle-ai.com/api/v1";
+//   }
+
+//   return process.env.API_URL || "https://api.alle-ai.com/api/v1";
+// }

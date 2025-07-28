@@ -15,7 +15,7 @@ class AlleModels {
     const request: ModelRequest = {
       type: 'all'
     };
-    return this.makeRequest("/models", request);
+    return this.makeRequest("/ai_models", request);
   }
 
   /**
@@ -31,7 +31,7 @@ class AlleModels {
     const request: ModelRequest = {
       type
     };
-    return this.makeRequest("/models", request);
+    return this.makeRequest("/ai_models", request);
   }
 
   /**
@@ -65,7 +65,7 @@ class AlleModels {
       type,
       params
     };
-    return this.makeRequest("/models", request);
+    return this.makeRequest("/ai_models", request);
   }
 
   /**
