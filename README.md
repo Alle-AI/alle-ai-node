@@ -9,7 +9,9 @@ A TypeScript/JavaScript SDK for interacting with the AlleAI platform, providing 
 ### Features
 
 - **Full TypeScript Support** – Includes comprehensive type definitions with IntelliSense and autocomplete for a smooth developer experience.
-- **Chat Completions API** – Generate conversational responses using multiple AI models such as GPT-4o, O4-Mini, and Claude 3 Sonnet.
+- **Chat Completions API** – Generate conversational responses using multiple AI models such as GPT-5 and Claude Sonnet 4.6. Optional `tools` and tool follow-up via `request_log_id` + `tool_result`.
+- **Embeddings API** – Create vectors with `cohere-embed-v4`. Alle-AI does not store embeddings.
+- **Tools API** – Execute built-in file tools (`generate_pdf`, `generate_docx`, `generate_pptx`, `generate_xlsx`, `generate_chart`).
 - **Image Generation & Editing API** – Create and manipulate high-quality images powered by models like DALL·E 3, Grok-2, and others.
 - **Audio API** – Multi-model support for:
   - **Text-to-Speech (TTS)** – Convert text to natural-sounding audio.
@@ -495,6 +497,39 @@ async function checkVideoStatus() {
 }
 
 checkVideoStatus();
+```
+
+### Embeddings
+
+```typescript
+async function runEmbeddings() {
+  const vectors = await alleai.embeddings.create({
+    input: ["Alle-AI embeddings", "second document"],
+    model: "cohere-embed-v4",
+    input_type: "search_document",
+  });
+  console.log(vectors);
+}
+
+runEmbeddings();
+```
+
+### Tools
+
+```typescript
+async function runTool() {
+  const pdf = await alleai.tools.execute({
+    tool_name: "generate_pdf",
+    arguments: {
+      filename: "report",
+      title: "Q3 Report",
+      content: [{ type: "heading", text: "Summary", level: 1 }],
+    },
+  });
+  console.log(pdf);
+}
+
+runTool();
 ```
 
 ## Error Handling

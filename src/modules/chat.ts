@@ -275,6 +275,18 @@ class AlleChat {
    * ```
    */
   async completions(request: ApiRequest): Promise<any> {
+    if (request.request_log_id) {
+      if (
+        !request.tool_result?.tool_call_id ||
+        request.tool_result.content == null
+      ) {
+        throw new ValidationError(
+          "tool_result.tool_call_id and tool_result.content are required for a tool follow-up"
+        );
+      }
+      return this.makeRequest("/chat/completions", request);
+    }
+
     this.validateRequestParameters(request);
 
     return this.makeRequest("/chat/completions", request);

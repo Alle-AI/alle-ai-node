@@ -1,7 +1,7 @@
 // chat request body
 export interface ApiRequest {
-  models: string[];
-  messages: Message[];
+  models?: string[];
+  messages?: Message[];
   web_search?: boolean;
   comparison?: boolean | Comparison[];
   combination?: boolean | Combination[];
@@ -12,6 +12,12 @@ export interface ApiRequest {
   presence_penalty?: number;
   stream?: boolean;
   model_specific_params?: Record<string, ModelSpecificParams>;
+  tools?: Record<string, any>[];
+  request_log_id?: string;
+  tool_result?: {
+    tool_call_id: string;
+    content: string;
+  };
 }
 
 interface Message {
@@ -129,4 +135,20 @@ export interface VideoEdit {
   models: string[];
   prompt: string;
   videoUrl: string;
+}
+
+export interface EmbeddingsParams {
+  input: string | string[];
+  model?: string;
+  input_type?: "search_document" | "search_query" | "classification" | "clustering";
+}
+
+export interface ToolsExecuteParams {
+  tool_name:
+    | "generate_pdf"
+    | "generate_docx"
+    | "generate_pptx"
+    | "generate_xlsx"
+    | "generate_chart";
+  arguments: Record<string, any>;
 }

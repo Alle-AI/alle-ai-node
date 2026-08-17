@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [2.1.0] - 2026-08-17
+
+### Added
+- `client.embeddings.create()` → `POST /embeddings` (`cohere-embed-v4`)
+- `client.tools.execute()` → `POST /tools/execute`
+- Chat `tools` on completions, plus `request_log_id` + `tool_result` follow-up
+
+### Notes
+- Public chat `stream` is still accepted and ignored (full JSON response)
+- There is no public `/video/edit` endpoint
+
+---
+
 ## [2.0.0] - 2025-06-18
 
 ### ⚠️ Breaking Changes
